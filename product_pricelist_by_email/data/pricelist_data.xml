@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ir_cron_pricelist_by_email" model="ir.cron">
+        <field name="name">Product Price list by Email</field>
+        <field name="interval_number">7</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="True"/>
+        <field name="model_id" ref="model_product_pricelist"/>
+        <field name="code">model.cron_create_product_pricelist_report()</field>
+        <field name="state">code</field>
+    </record>
+
+</odoo>

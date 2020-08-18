@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2017 Carlos Dauden <carlos.dauden@tecnativa.com>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <template id="report_product_pricelist">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <center><h2><t t-esc="o.name"/> <t t-esc="time.strftime('%Y-%m-%d')" /></h2></center>
+                    <div class="row mt32 mb32">
+                        <div class="col-5">
+	                        <strong>Price List Name</strong>:<br />
+	                        <t>
+	                            <span t-field="o.name"/>
+	                        </t>
+	                    </div>
+                        <div class="col-4">
+	                        <strong>Currency</strong>:<br/>
+	                        <span t-field="o.currency_id"/>
+	                    </div>
+                        <div class="col-3">
+	                        <strong>Date</strong>:<br />
+	                        <t>
+	                            <t t-esc="time.strftime('%Y-%m-%d')"/>
+	                        </t>
+	                    </div>
+	                    
+                    </div>
+                    <table class="table table-sm o_main_table">
+		                <thead>
+		                    <tr>
+		                        <th name="th_description" class="text-left">Applicable On</th>
+		                        <th name="th_quantity" class="text-right">Min. Quantity</th>
+		                        <th name="th_startdate" class="text-right">Start Date</th>
+		                        <th name="th_enddate" class="text-right">End Date</th>
+		                        <th name="th_priceunit" class="text-right">Unit Price</th>
+		                    </tr>
+		                </thead>
+	                	<tbody class="pricelist_tbody">
+		                    <t t-foreach="o.get_items(o.id)" t-as="line">
+			                    <tr>
+			                        <td>
+			                            <span t-field="line.name"/>
+			                        </td>
+			                        <td class="text-right">
+			                            <span t-field="line.min_quantity"/>
+			                        </td>
+			                        <td class="text-right">
+			                        	<t t-if="line.date_start">
+			                            	<span t-field="line.date_start"/>
+			                        	</t>
+			                        	<t t-else="">-</t>
+			                        </td>
+			                        <td class="text-right">
+			                            <t t-if="line.date_end">
+			                            	<span t-field="line.date_end"/>
+			                        	</t>
+			                        	<t t-else="">-</t>
+			                        </td>
+			                        <td class="text-right">
+			                            <span t-field="line.price"/>
+			                        </td>
+			                    </tr>
+			                </t>
+	                    </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+    
+    <template id="report_product_pricelist_template">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="product_pricelist_by_email.report_product_pricelist" t-lang="o.env.user.lang"/>
+        </t>
+    </template>
+    
+    <report
+        id="action_report_product_pricelist"
+        model="product.pricelist"
+        string="Product Price List"
+        report_type="qweb-pdf"
+        name="product_pricelist_by_email.report_product_pricelist_template"
+        file="product_pricelist_by_email.report_product_pricelist_template"/>
+        
+</odoo>
