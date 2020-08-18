@@ -18,6 +18,7 @@
         'data/mail_template_data.xml',
         'data/pricelist_data.xml',
         'report/report_product_pricelist.xml'],
+    'images': ['static/description/banner.jpg'],
     'installable': True,
     'application': False,
     'auto_install': False,
